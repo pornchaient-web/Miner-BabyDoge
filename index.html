@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>BabyDoge Cute Dashboard 🐶✨</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Mali', cursive;
+      background: linear-gradient(135deg, #fff0f5 0%, #e0f7fa 100%);
+      background-attachment: fixed;
+    }
+    .cute-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      border: 3px solid rgba(255, 255, 255, 0.9);
+      border-radius: 28px;
+      transition: all 0.3s ease;
+    }
+    .cute-card:hover { transform: translateY(-4px); }
+    .shadow-purple { box-shadow: 0 12px 30px -10px rgba(168, 85, 247, 0.25); }
+    .shadow-teal { box-shadow: 0 12px 30px -10px rgba(20, 184, 166, 0.25); }
+    .shadow-orange { box-shadow: 0 12px 30px -10px rgba(249, 115, 22, 0.25); }
+    .shadow-pink { box-shadow: 0 12px 30px -10px rgba(236, 72, 153, 0.25); }
+    .badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+  </style>
+</head>
+<body class="text-slate-700 min-h-screen p-4 md:p-8">
+
+  <div class="max-w-7xl mx-auto space-y-8">
+    
+    <div class="cute-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-pink border-l-8 border-l-pink-400">
+      <div>
+        <div class="flex items-center gap-3">
+          <span class="text-4xl">🐶🍼</span>
+          <h1 class="text-2xl md:text-3xl font-extrabold text-pink-500 tracking-wide drop-shadow-sm">
+            BABYDOGE Mining Center ✨
+          </h1>
+        </div>
+        <div class="flex items-center gap-2 mt-2 text-xs md:text-sm text-slate-500 font-medium">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
+          </span>
+          <p>ระบบอัปเดตอัตโนมัติ 💖 คำนวณเงินบาททุกๆ 10 วินาที</p>
+        </div>
+      </div>
+      <div class="bg-white/90 px-5 py-3 rounded-2xl border-2 border-pink-100 min-w-[180px] shadow-sm">
+        <span class="text-[11px] uppercase text-pink-400 font-bold tracking-wider">อัปเดตล่าสุด ⏰</span>
+        <span id="txt-time" class="text-sm font-bold text-slate-700 mt-0.5">-</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="cute-card p-6 shadow-purple flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-start gap-2">
+            <span class="text-sm font-bold text-purple-400">💰 ยอด Balance</span>
+            <div class="text-right flex flex-col items-end">
+              <span class="badge bg-purple-100 text-purple-600 mb-1">เรทราคา ฿</span>
+              <span id="token-price" class="text-[12px] font-sans text-purple-400 font-bold">฿0.00000000000</span>
+            </div>
+          </div>
+          <span id="card-balance" class="text-xl md:text-2xl font-extrabold text-purple-600 mt-2 block tracking-tight truncate">-</span>
+          <span id="card-balance-thb" class="text-lg font-bold text-purple-500 mt-1 block">≈ ฿0.00</span>
+        </div>
+        <span class="text-[12px] text-purple-400/80 mt-4 font-medium block">มูลค่าเหรียญที่มีทั้งหมด</span>
+      </div>
+
+      <div class="cute-card p-6 shadow-teal flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-bold text-teal-500">🖥️ เครื่องขุดออนไลน์</span>
+            <span class="badge bg-teal-100 text-teal-600">Active ✅</span>
+          </div>
+          <span id="card-workers" class="text-3xl font-extrabold text-teal-500 mt-4 block tracking-tight">-</span>
+        </div>
+        <span class="text-[12px] text-teal-500/80 mt-4 font-medium block">จำนวนเครื่องที่กำลังทำงาน</span>
+      </div>
+
+      <div class="cute-card p-6 shadow-orange flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-bold text-orange-400">⚡ แรงขุดรวมทั้งหมด</span>
+            <span class="badge bg-orange-100 text-orange-600">Power 💪</span>
+          </div>
+          <span id="card-hashrate" class="text-2xl font-extrabold text-orange-500 mt-4 block tracking-tight">-</span>
+        </div>
+        <span class="text-[12px] text-orange-400/80 mt-4 font-medium block">ประมวลผลฐานหน่วย Gh/s</span>
+      </div>
+
+      <div class="cute-card p-6 shadow-pink flex flex-col justify-between">
+        <div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-bold text-pink-400">🎁 รางวัลล่าสุด</span>
+            <span class="badge bg-pink-100 text-pink-600">Payout 💸</span>
+          </div>
+          <span id="card-reward" class="text-xl md:text-2xl font-extrabold text-pink-500 mt-3 block tracking-tight truncate">-</span>
+          <span id="card-reward-thb" class="text-lg font-bold text-rose-400 mt-1 block">≈ ฿0.00</span>
+        </div>
+        <span class="text-[12px] text-pink-400/80 mt-4 font-medium block">จากการจ่ายรอบล่าสุด</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div class="cute-card p-6 shadow-orange flex flex-col justify-between border-b-4 border-b-orange-400">
+        <div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-bold text-orange-500">☀️ รางวัลที่ขุดได้ 24 ชม.</span>
+            <span class="badge bg-orange-100 text-orange-600">Daily 24H</span>
+          </div>
+          <span id="card-reward-24h" class="text-lg md:text-xl font-extrabold text-orange-600 mt-4 block tracking-tight truncate">-</span>
+          <span id="card-reward-24h-thb" class="text-md font-bold text-orange-500 mt-1 block">≈ ฿0.00</span>
+        </div>
+      </div>
+
+      <div class="cute-card p-6 shadow-purple flex flex-col justify-between border-b-4 border-b-purple-400">
+        <div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-bold text-purple-500">🗓️ รางวัลที่ขุดได้ 7 วัน</span>
+            <span class="badge bg-purple-100 text-purple-600">Weekly 7D</span>
+          </div>
+          <span id="card-reward-7d" class="text-lg md:text-xl font-extrabold text-purple-600 mt-4 block tracking-tight truncate">-</span>
+          <span id="card-reward-7d-thb" class="text-md font-bold text-purple-500 mt-1 block">≈ ฿0.00</span>
+        </div>
+      </div>
+
+      <div class="cute-card p-6 shadow-pink flex flex-col justify-between border-b-4 border-b-pink-400">
+        <div>
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-bold text-pink-500">🌙 รางวัลที่ขุดได้ 30 วัน</span>
+            <span class="badge bg-pink-100 text-pink-600">Monthly 30D</span>
+          </div>
+          <span id="card-reward-30d" class="text-lg md:text-xl font-extrabold text-pink-600 mt-4 block tracking-tight truncate">-</span>
+          <span id="card-reward-30d-thb" class="text-md font-bold text-pink-500 mt-1 block">≈ ฿0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div class="flex items-center gap-3">
+        <h2 class="text-md font-bold text-pink-500 tracking-wide drop-shadow-sm">📋 สถานะน้องๆ เครื่องขุด</h2>
+        <div class="h-[2px] flex-1 bg-pink-200 rounded-full"></div>
+      </div>
+      <div id="workers-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="cute-card p-6 space-y-4 shadow-teal">
+        <div class="flex justify-between items-center">
+          <h3 class="text-md font-bold text-teal-500">📈 แนวโน้มแรงขุด (Gh/s)</h3>
+          <span class="badge bg-teal-50 text-teal-400">ย้อนหลัง 24 จุด</span>
+        </div>
+        <div class="relative h-[320px]"><canvas id="chartHashrate"></canvas></div>
+      </div>
+
+      <div class="cute-card p-6 space-y-4 shadow-pink">
+        <div class="flex justify-between items-center">
+          <h3 class="text-md font-bold text-pink-500">🎉 ประวัติรับรางวัล (BABYDOGE)</h3>
+          <span class="badge bg-pink-50 text-pink-400">ย้อนหลัง 24 จุด</span>
+        </div>
+        <div class="relative h-[320px]"><canvas id="chartReward"></canvas></div>
+      </div>
+    </div>
+    
+  </div>
+
+  <script>
+    var hashrateChartInstance = null;
+    var rewardChartInstance = null;
+
+    function formatHashrate(value, currentUnit) {
+      var hr = parseFloat(value || 0);
+      if (currentUnit === "Mh/s" && hr >= 1000) { hr = hr / 1000; currentUnit = "Gh/s"; }
+      if (currentUnit === "Gh/s" && hr >= 1000) { hr = hr / 1000; currentUnit = "Th/s"; }
+      return hr.toFixed(2) + " " + currentUnit;
+    }
+
+    function formatCryptoPriceThb(price) {
+      var p = parseFloat(price || 0);
+      if (p === 0) return "฿0.0000000000";
+      return "฿" + p.toFixed(11);
+    }
+
+    function formatThbValue(value) {
+      var v = parseFloat(value || 0);
+      return "฿" + v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 }) + " THB";
+    }
+
+    // ⚠️ นำ URL เว็บแอปที่ได้จากขั้นตอน Deploy ไปวางในเครื่องหมายคำพูดด้านล่างนี้ครับ
+    var WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyY0q23xtkeMwM_3AeAxodKU0jjtMb7KAa0ewfkcP7b7coseLqROtMxErXYIRO6he4b/exec";
+
+    function fetchDashboardData() {
+      var script = document.createElement('script');
+      script.src = WEB_APP_URL + "?callback=renderDashboard"; 
+      document.body.appendChild(script);
+      script.onload = function() { script.remove(); };
+    }
+
+    window.onload = function() {
+      fetchDashboardData();
+      setInterval(fetchDashboardData, 10000); 
+    };
+
+    function renderDashboard(data) {
+      if (!data) return;
+
+      document.getElementById('txt-time').innerText = data.summary.timestamp;
+      document.getElementById('token-price').innerText = formatCryptoPriceThb(data.summary.tokenPriceThb);
+      document.getElementById('card-balance').innerText = data.summary.balance;
+      document.getElementById('card-balance-thb').innerText = "≈ " + formatThbValue(data.summary.balanceThb);
+      document.getElementById('card-workers').innerText = data.summary.onlineWorkers + " เครื่อง";
+      document.getElementById('card-hashrate').innerText = formatHashrate(data.summary.totalHashrate, "Gh/s");
+      
+      document.getElementById('card-reward').innerText = data.summary.latestReward;
+      document.getElementById('card-reward-thb').innerText = "≈ " + formatThbValue(data.summary.latestRewardThb);
+
+      document.getElementById('card-reward-24h').innerText = data.summary.dailyReward;
+      document.getElementById('card-reward-24h-thb').innerText = "≈ " + formatThbValue(data.summary.dailyRewardThb);
+      document.getElementById('card-reward-7d').innerText = data.summary.weeklyReward;
+      document.getElementById('card-reward-7d-thb').innerText = "≈ " + formatThbValue(data.summary.weeklyRewardThb);
+      document.getElementById('card-reward-30d').innerText = data.summary.monthlyReward;
+      document.getElementById('card-reward-30d-thb').innerText = "≈ " + formatThbValue(data.summary.monthlyRewardThb);
+
+      var workersHtml = '';
+      data.summary.workers.forEach(function(worker) {
+        var isOnline = worker.hashrate > 0;
+        var dotColor = isOnline ? 'bg-teal-400' : 'bg-slate-300';
+        var borderGlow = isOnline ? 'border-teal-200 bg-teal-50/50' : 'border-slate-200 bg-slate-50';
+        var statusBg = isOnline ? 'bg-teal-100 text-teal-600' : 'bg-slate-200 text-slate-500';
+        var displayedHashrate = isOnline ? formatHashrate(worker.hashrate, worker.unit) : 'Zzz..';
+        
+        workersHtml += `
+          <div class="rounded-2xl p-4 border-2 ${borderGlow} flex justify-between items-center transition-all hover:scale-105 shadow-sm">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="h-3 w-3 rounded-full ${dotColor} ${isOnline ? 'shadow-[0_0_8px_#2dd4bf]' : ''}"></span>
+                <span class="text-sm font-bold text-slate-700 tracking-tight">${worker.name}</span>
+              </div>
+              <span class="text-[10px] text-slate-400 block font-semibold">หน่วย: ${worker.unit}</span>
+            </div>
+            <div class="text-right">
+              <span class="text-xs px-2.5 py-1 rounded-xl font-bold ${statusBg}">${displayedHashrate}</span>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById('workers-container').innerHTML = workersHtml;
+
+      var chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { labels: { color: '#64748b', font: { family: 'Mali', size: 12, weight: 'bold' } } } },
+        scales: {
+          x: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { color: '#94a3b8', font: { family: 'Mali' } } },
+          y: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { color: '#94a3b8', font: { family: 'Mali' } } }
+        }
+      };
+
+      var datasetsHashrate = [{
+        label: 'แรงขุดรวม (Total - Gh/s)',
+        data: data.charts.totalHashrates,
+        borderColor: '#f97316', 
+        borderWidth: 3,
+        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#f97316'
+      }];
+
+      var colors = ['#0ea5e9', '#14b8a6', '#a855f7', '#ec4899', '#f43f5e'];
+      var colorIdx = 0;
+      for (var workerName in data.charts.workers) {
+        datasetsHashrate.push({
+          label: workerName + ' (Gh/s)',
+          data: data.charts.workers[workerName],
+          borderColor: colors[colorIdx % colors.length],
+          borderWidth: 2,
+          borderDash: [5, 5],
+          fill: false,
+          tension: 0.3,
+          pointRadius: 1
+        });
+        colorIdx++;
+      }
+
+      if (hashrateChartInstance) {
+        hashrateChartInstance.data.labels = data.charts.labels;
+        for (var i = 0; i < datasetsHashrate.length; i++) {
+          if (hashrateChartInstance.data.datasets[i]) { hashrateChartInstance.data.datasets[i].data = datasetsHashrate[i].data; } 
+          else { hashrateChartInstance.data.datasets.push(datasetsHashrate[i]); }
+        }
+        hashrateChartInstance.update(); 
+      } else {
+        var ctxHashrate = document.getElementById('chartHashrate').getContext('2d');
+        hashrateChartInstance = new Chart(ctxHashrate, { type: 'line', data: { labels: data.charts.labels, datasets: datasetsHashrate }, options: chartOptions });
+      }
+
+      if (rewardChartInstance) {
+        rewardChartInstance.data.labels = data.charts.labels;
+        rewardChartInstance.data.datasets[0].data = data.charts.rewards;
+        rewardChartInstance.update(); 
+      } else {
+        var ctxReward = document.getElementById('chartReward').getContext('2d');
+        rewardChartInstance = new Chart(ctxReward, {
+          type: 'bar',
+          data: {
+            labels: data.charts.labels,
+            datasets: [{
+              label: 'จำนวนเหรียญรางวัลที่ได้รับ 🎁',
+              data: data.charts.rewards,
+              backgroundColor: 'rgba(244, 114, 182, 0.8)',
+              hoverBackgroundColor: 'rgba(236, 72, 153, 1)',
+              borderRadius: 8,
+              borderWidth: 0
+            }]
+          },
+          options: chartOptions
+        });
+      }
+    }
+  </script>
+</body>
+</html>
