@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
+    /* CSS Variables for Premium Mode */
     :root {
       --bg-gradient: linear-gradient(135deg, #fff0f5 0%, #e0f7fa 100%);
       --card-bg: rgba(255, 255, 255, 0.8);
@@ -17,11 +18,10 @@
       --text-primary: #334155;
       --text-secondary: #64748b;
       --card-shadow: 0 20px 40px -15px rgba(236, 72, 153, 0.1);
-      --input-bg: rgba(255, 255, 255, 0.9);
-      --input-border: rgba(236, 72, 153, 0.2);
       --accent-color: #ec4899;
       --glow-color: rgba(236, 72, 153, 0.15);
     }
+    
     .dark {
       --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #1e1b4b 100%);
       --card-bg: rgba(20, 24, 43, 0.75);
@@ -29,22 +29,57 @@
       --text-primary: #f8fafc;
       --text-secondary: #94a3b8;
       --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
-      --input-bg: rgba(15, 23, 42, 0.6);
-      --input-border: rgba(244, 114, 182, 0.1);
       --accent-color: #f472b6;
       --glow-color: rgba(244, 114, 182, 0.25);
     }
+
+    /* Core styles based on UI Version settings */
     body {
       font-family: 'Mali', cursive;
       background: var(--bg-gradient);
       background-attachment: fixed;
       color: var(--text-primary);
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: background 0.4s ease, color 0.4s ease;
     }
-    .font-num {
+    
+    /* CLASSIC UI Look Overrides */
+    body.view-classic {
+      font-family: 'Mali', cursive !important;
+      background: linear-gradient(135deg, #fff0f5 0%, #e0f7fa 100%) !important;
+      background-attachment: fixed !important;
+      color: #475569 !important;
+    }
+    body.view-classic .font-num {
+      font-family: 'Mali', cursive !important;
+    }
+    body.view-classic .cute-card {
+      background: rgba(255, 255, 255, 0.85) !important;
+      backdrop-filter: blur(16px) !important;
+      border: 3px solid rgba(255, 255, 255, 0.9) !important;
+      border-radius: 28px !important;
+      box-shadow: none !important;
+      transform: none !important;
+      transition: all 0.3s ease !important;
+    }
+    body.view-classic .cute-card:hover {
+      transform: translateY(-4px) !important;
+    }
+    body.view-classic .shadow-purple { box-shadow: 0 12px 30px -10px rgba(168, 85, 247, 0.25) !important; }
+    body.view-classic .shadow-teal { box-shadow: 0 12px 30px -10px rgba(20, 184, 166, 0.25) !important; }
+    body.view-classic .shadow-orange { box-shadow: 0 12px 30px -10px rgba(249, 115, 22, 0.25) !important; }
+    body.view-classic .shadow-pink { box-shadow: 0 12px 30px -10px rgba(236, 72, 153, 0.25) !important; }
+    body.view-classic .badge {
+      padding: 4px 10px !important;
+      border-radius: 12px !important;
+      font-size: 11px !important;
+      font-weight: 700 !important;
+    }
+
+    /* PREMIUM UI Look Settings */
+    body.view-premium .font-num {
       font-family: 'Outfit', sans-serif;
     }
-    .cute-card {
+    body.view-premium .cute-card {
       background: var(--card-bg);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
@@ -53,22 +88,41 @@
       box-shadow: var(--card-shadow);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .cute-card:hover {
+    body.view-premium .cute-card:hover {
       transform: translateY(-5px);
+      border-color: var(--accent-color);
       box-shadow: 0 25px 50px -12px var(--glow-color);
     }
-    .neon-border-pink:hover { border-color: #ec4899; }
-    .neon-border-teal:hover { border-color: #0d9488; }
-    .neon-border-orange:hover { border-color: #ea580c; }
-    .neon-border-purple:hover { border-color: #8b5cf6; }
-
-    .badge {
+    body.view-premium .badge {
       padding: 6px 12px;
       border-radius: 14px;
       font-size: 11px;
       font-weight: 700;
     }
-    /* Floating toggle */
+
+    /* Accent color overrides (Premium only) */
+    body.view-premium.theme-pink {
+      --accent-color: #ec4899;
+      --glow-color: rgba(236, 72, 153, 0.15);
+    }
+    body.view-premium.theme-teal {
+      --accent-color: #0d9488;
+      --glow-color: rgba(13, 148, 136, 0.15);
+    }
+    body.view-premium.theme-purple {
+      --accent-color: #8b5cf6;
+      --glow-color: rgba(139, 92, 246, 0.15);
+    }
+    body.view-premium.theme-orange {
+      --accent-color: #ea580c;
+      --glow-color: rgba(234, 88, 12, 0.15);
+    }
+
+    /* Visibility filters */
+    body.view-classic .modern-only { display: none !important; }
+    body.view-premium .classic-only { display: none !important; }
+
+    /* Float buttons styling */
     .theme-toggle {
       width: 48px;
       height: 48px;
@@ -86,13 +140,23 @@
     .theme-toggle:hover {
       transform: scale(1.1) rotate(15deg);
     }
+    body.view-classic .theme-toggle {
+      background: rgba(255, 255, 255, 0.9) !important;
+      border: 3px solid rgba(255, 255, 255, 0.9) !important;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+    }
   </style>
 </head>
-<body class="min-h-screen p-4 md:p-8">
+<body class="view-premium theme-pink min-h-screen p-4 md:p-8">
 
-  <!-- Floating Settings -->
+  <!-- Floating Settings Panel -->
   <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
-    <button onclick="toggleTheme()" id="theme-btn" class="theme-toggle" title="เปลี่ยนธีม">
+    <!-- Settings button (always visible) -->
+    <button onclick="openSettings()" class="theme-toggle" title="ตั้งค่าแดชบอร์ด">
+      <span class="text-xl">⚙️</span>
+    </button>
+    <!-- Dark/Light Mode button (Modern only) -->
+    <button onclick="toggleTheme()" id="theme-btn" class="theme-toggle modern-only" title="เปลี่ยนธีม มืด/สว่าง">
       <span class="text-xl">🌙</span>
     </button>
   </div>
@@ -100,24 +164,44 @@
   <div class="max-w-7xl mx-auto space-y-8">
     
     <!-- Top Header -->
-    <div class="cute-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-l-8 border-l-pink-400">
-      <div class="flex items-center gap-4">
-        <div class="w-16 h-16 rounded-3xl bg-pink-100 flex items-center justify-center text-4xl animate-bounce shadow-md">
+    <div id="header-container" class="cute-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-l-8 border-l-pink-400 shadow-pink">
+      
+      <!-- Premium Design Header -->
+      <div class="modern-only flex items-center gap-4">
+        <div class="w-16 h-16 rounded-3xl bg-pink-100 dark:bg-pink-950/40 flex items-center justify-center text-4xl animate-bounce shadow-md">
           🐶
         </div>
         <div>
           <h1 class="text-2xl md:text-3xl font-extrabold text-pink-500 tracking-wide drop-shadow-sm flex items-center gap-2">
-            BABYDOGE Mining Center <span class="text-sm badge bg-pink-100 text-pink-600">v2.0 ✨</span>
+            BABYDOGE Mining Center <span class="text-sm badge bg-pink-100 text-pink-600 dark:bg-pink-950/60 dark:text-pink-300">v2.0 ✨</span>
           </h1>
           <div class="flex items-center gap-2 mt-1.5 text-xs md:text-sm text-slate-500 font-medium">
             <span class="relative flex h-3 w-3">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
               <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
             </span>
-            <p class="text-slate-600 dark:text-slate-400">ระบบประมวลผลการคำนวณสดและเงินบาทอัปเดตทุกๆ 10 วินาที</p>
+            <p class="text-slate-600 dark:text-slate-400">ระบบประมวลผลการคำนวณสดและเงินบาทอัปเดตอัตโนมัติ</p>
           </div>
         </div>
       </div>
+
+      <!-- Classic Design Header -->
+      <div class="classic-only">
+        <div class="flex items-center gap-3">
+          <span class="text-4xl">🐶🍼</span>
+          <h1 class="text-2xl md:text-3xl font-extrabold text-pink-500 tracking-wide drop-shadow-sm">
+            BABYDOGE Mining Center ✨
+          </h1>
+        </div>
+        <div class="flex items-center gap-2 mt-2 text-xs md:text-sm text-slate-500 font-medium">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
+          </span>
+          <p>ระบบอัปเดตอัตโนมัติ 💖 คำนวณเงินบาททุกๆ 10 วินาที</p>
+        </div>
+      </div>
+
       <div class="flex gap-3">
         <div class="bg-white/40 dark:bg-slate-800/40 px-5 py-3 rounded-2xl border-2 border-pink-100 dark:border-pink-900/30 min-w-[180px] shadow-sm">
           <span class="text-[10px] uppercase text-pink-400 dark:text-pink-300 font-bold tracking-wider block">อัปเดตล่าสุด ⏰</span>
@@ -126,11 +210,26 @@
       </div>
     </div>
 
+    <!-- Payout Progress Bar (Modern Only) -->
+    <div id="progress-bar-container" class="modern-only cute-card p-6 space-y-3" style="display:none;">
+      <div class="flex justify-between items-center text-sm font-bold">
+        <span class="text-pink-500">📈 ความคืบหน้าสู่เป้าหมายการถอนเหรียญ (Payout Progress)</span>
+        <span id="progress-percent" class="text-pink-600 font-num">0%</span>
+      </div>
+      <div class="w-full bg-slate-100 dark:bg-slate-800/60 rounded-full h-4 overflow-hidden border border-slate-200/50 dark:border-slate-700/30 shadow-inner">
+        <div id="progress-fill" class="bg-gradient-to-r from-pink-400 to-pink-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
+      </div>
+      <div class="flex justify-between text-xs text-slate-400 dark:text-slate-500 font-semibold font-num">
+        <span>ยอดสะสม: <span id="progress-current" class="text-slate-600 dark:text-slate-300 font-bold">0</span> BABYDOGE</span>
+        <span>เป้าหมาย: <span id="progress-target" class="text-slate-600 dark:text-slate-300 font-bold">0</span> BABYDOGE</span>
+      </div>
+    </div>
+
     <!-- Core Grid Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       
       <!-- Balance Card -->
-      <div class="cute-card p-6 neon-border-purple flex flex-col justify-between">
+      <div class="cute-card p-6 shadow-purple flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-start gap-2">
             <span class="text-sm font-bold text-purple-400 dark:text-purple-300">💰 ยอด Balance</span>
@@ -146,7 +245,7 @@
       </div>
 
       <!-- Online Workers Card -->
-      <div class="cute-card p-6 neon-border-teal flex flex-col justify-between">
+      <div class="cute-card p-6 shadow-teal flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center">
             <span class="text-sm font-bold text-teal-500 dark:text-teal-400">🖥️ เครื่องขุดออนไลน์</span>
@@ -158,7 +257,7 @@
       </div>
 
       <!-- Hashrate Card -->
-      <div class="cute-card p-6 neon-border-orange flex flex-col justify-between">
+      <div class="cute-card p-6 shadow-orange flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center">
             <span class="text-sm font-bold text-orange-400 dark:text-orange-300">⚡ แรงขุดรวมทั้งหมด</span>
@@ -170,7 +269,7 @@
       </div>
 
       <!-- Latest Reward Card -->
-      <div class="cute-card p-6 neon-border-pink flex flex-col justify-between">
+      <div class="cute-card p-6 shadow-pink flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center">
             <span class="text-sm font-bold text-pink-400 dark:text-pink-300">🎁 รางวัลล่าสุด</span>
@@ -186,7 +285,7 @@
     <!-- Mined rewards (24h, 7d, 30d) -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
       <!-- 24H -->
-      <div class="cute-card p-6 neon-border-orange flex flex-col justify-between border-b-4 border-b-orange-400">
+      <div class="cute-card p-6 shadow-orange flex flex-col justify-between border-b-4 border-b-orange-400">
         <div>
           <div class="flex justify-between items-center">
             <span class="text-sm font-bold text-orange-500 dark:text-orange-400">☀️ รางวัลที่ขุดได้ 24 ชม.</span>
@@ -198,7 +297,7 @@
       </div>
 
       <!-- 7D -->
-      <div class="cute-card p-6 neon-border-purple flex flex-col justify-between border-b-4 border-b-purple-400">
+      <div class="cute-card p-6 shadow-purple flex flex-col justify-between border-b-4 border-b-purple-400">
         <div>
           <div class="flex justify-between items-center">
             <span class="text-sm font-bold text-purple-500 dark:text-purple-400">🗓️ รางวัลที่ขุดได้ 7 วัน</span>
@@ -210,7 +309,7 @@
       </div>
 
       <!-- 30D -->
-      <div class="cute-card p-6 neon-border-pink flex flex-col justify-between border-b-4 border-b-pink-400">
+      <div class="cute-card p-6 shadow-pink flex flex-col justify-between border-b-4 border-b-pink-400">
         <div>
           <div class="flex justify-between items-center">
             <span class="text-sm font-bold text-pink-500 dark:text-pink-400">🌙 รางวัลที่ขุดได้ 30 วัน</span>
@@ -246,7 +345,7 @@
     <!-- Re-designed Charts Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <!-- Hashrate Trend Line Chart -->
-      <div class="cute-card p-6 space-y-4 neon-border-teal">
+      <div class="cute-card p-6 space-y-4 shadow-teal">
         <div class="flex justify-between items-center">
           <div class="flex items-center gap-2">
             <span class="text-lg">📈</span>
@@ -258,7 +357,7 @@
       </div>
 
       <!-- Reward Payout History Bar Chart -->
-      <div class="cute-card p-6 space-y-4 neon-border-pink">
+      <div class="cute-card p-6 space-y-4 shadow-pink">
         <div class="flex justify-between items-center">
           <div class="flex items-center gap-2">
             <span class="text-lg">🎉</span>
@@ -272,25 +371,166 @@
     
   </div>
 
+  <!-- Settings Modal Overlay -->
+  <div id="settings-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md hidden">
+    <div class="cute-card p-6 max-w-md w-full mx-4 space-y-4 border-2 border-pink-100 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95">
+      <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800/60 pb-3">
+        <h3 class="text-lg font-bold text-pink-500 flex items-center gap-2">⚙️ ตั้งค่าแดชบอร์ด</h3>
+        <button onclick="closeSettings()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">×</button>
+      </div>
+      
+      <div class="space-y-4 text-sm max-h-[70vh] overflow-y-auto pr-1">
+        <!-- Web App URL -->
+        <div class="space-y-1">
+          <label class="font-bold text-slate-500 dark:text-slate-400 block">Google Sheets Web App URL:</label>
+          <input type="text" id="setting-url" placeholder="https://script.google.com/..." 
+                 class="w-full px-3 py-2 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200 focus:outline-none focus:border-pink-400">
+        </div>
+        
+        <!-- Refresh Interval -->
+        <div class="space-y-1">
+          <label class="font-bold text-slate-500 dark:text-slate-400 block">รอบเวลาการดึงข้อมูลอัตโนมัติ:</label>
+          <select id="setting-interval" class="w-full px-3 py-2 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200 focus:outline-none">
+            <option value="10000">10 วินาที</option>
+            <option value="30000">30 วินาที</option>
+            <option value="60000">1 นาที</option>
+            <option value="300000">5 นาที</option>
+          </select>
+        </div>
+
+        <!-- Payout Target -->
+        <div class="space-y-1">
+          <label class="font-bold text-slate-500 dark:text-slate-400 block">เป้าหมายยอดการถอนเหรียญ (BABYDOGE):</label>
+          <input type="number" id="setting-target" placeholder="เช่น 5000000000" 
+                 class="w-full px-3 py-2 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200 focus:outline-none focus:border-pink-400">
+        </div>
+
+        <!-- UI Look version -->
+        <div class="space-y-1">
+          <label class="font-bold text-slate-500 dark:text-slate-400 block">สไตล์รูปแบบหน้าตาแดชบอร์ด (UX/UI Look):</label>
+          <select id="setting-ui-version" onchange="toggleUiVersionPreview()" class="w-full px-3 py-2 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200 focus:outline-none">
+            <option value="classic">Classic Cute (แบบเก่าเดิม) 🐶</option>
+            <option value="premium">Premium Glassmorphism (แบบใหม่) ✨</option>
+          </select>
+        </div>
+
+        <!-- Color Theme (Premium Only) -->
+        <div id="setting-theme-row" class="space-y-1">
+          <label class="font-bold text-slate-500 dark:text-slate-400 block">สีธีมหลัก (เฉพาะแบบใหม่):</label>
+          <select id="setting-theme" class="w-full px-3 py-2 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl bg-white dark:bg-slate-950 text-slate-700 dark:text-slate-200 focus:outline-none">
+            <option value="pink">Cute Pink 🌸</option>
+            <option value="teal">Cyber Mint 🧪</option>
+            <option value="purple">Royal Purple 🔮</option>
+            <option value="orange">Warm Orange 🍊</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex gap-3 pt-3 border-t border-slate-100 dark:border-slate-800/60">
+        <button onclick="saveSettings()" class="flex-1 py-2.5 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-xl transition-all shadow-md">บันทึกข้อมูล</button>
+        <button onclick="closeSettings()" class="flex-1 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 font-bold rounded-xl transition-all">ยกเลิก</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     var hashrateChartInstance = null;
     var rewardChartInstance = null;
-    var currentDailyRewardPerGhs = 0;
     var currentPriceThb = 0;
-    var currentWorkersData = [];
 
-    // Theme Switcher logic
-    function initTheme() {
-      var saved = localStorage.getItem('theme');
-      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-        document.getElementById('theme-btn').querySelector('span').innerText = '☀️';
+    // Config defaults
+    var WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyY0q23xtkeMwM_3AeAxodKU0jjtMb7KAa0ewfkcP7b7coseLqROtMxErXYIRO6he4b/exec";
+    var REFRESH_INTERVAL = 10000;
+    var PAYOUT_TARGET = 0;
+    var UI_VERSION = "premium";
+    var UI_THEME = "pink";
+    var updateTimer = null;
+
+    // Load configurations from localStorage
+    function loadSettings() {
+      var savedUrl = localStorage.getItem('web_app_url');
+      if (savedUrl) WEB_APP_URL = savedUrl;
+      
+      var savedInterval = localStorage.getItem('refresh_interval');
+      if (savedInterval) REFRESH_INTERVAL = parseInt(savedInterval);
+      
+      var savedTarget = localStorage.getItem('payout_target');
+      if (savedTarget) PAYOUT_TARGET = parseFloat(savedTarget);
+      
+      var savedUiVersion = localStorage.getItem('ui_version');
+      if (savedUiVersion) UI_VERSION = savedUiVersion;
+      
+      var savedUiTheme = localStorage.getItem('ui_theme');
+      if (savedUiTheme) UI_THEME = savedUiTheme;
+
+      // Apply Layout Classes to Body
+      document.body.className = "view-" + UI_VERSION + " theme-" + UI_THEME;
+      
+      // Sync theme switcher UI class
+      var savedThemeMode = localStorage.getItem('theme');
+      if (savedThemeMode === 'dark' || (!savedThemeMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (UI_VERSION === 'premium') {
+          document.documentElement.classList.add('dark');
+          document.getElementById('theme-btn').querySelector('span').innerText = '☀️';
+        }
       } else {
         document.documentElement.classList.remove('dark');
-        document.getElementById('theme-btn').querySelector('span').innerText = '🌙';
+        if (UI_VERSION === 'premium') {
+          document.getElementById('theme-btn').querySelector('span').innerText = '🌙';
+        }
+      }
+
+      // Sync form values in Settings Modal
+      document.getElementById('setting-url').value = WEB_APP_URL;
+      document.getElementById('setting-interval').value = REFRESH_INTERVAL;
+      document.getElementById('setting-target').value = PAYOUT_TARGET || "";
+      document.getElementById('setting-ui-version').value = UI_VERSION;
+      document.getElementById('setting-theme').value = UI_THEME;
+      
+      toggleUiVersionPreview();
+    }
+
+    function saveSettings() {
+      var url = document.getElementById('setting-url').value.trim();
+      var interval = parseInt(document.getElementById('setting-interval').value);
+      var target = parseFloat(document.getElementById('setting-target').value || 0);
+      var version = document.getElementById('setting-ui-version').value;
+      var theme = document.getElementById('setting-theme').value;
+
+      localStorage.setItem('web_app_url', url);
+      localStorage.setItem('refresh_interval', interval);
+      localStorage.setItem('payout_target', target);
+      localStorage.setItem('ui_version', version);
+      localStorage.setItem('ui_theme', theme);
+
+      closeSettings();
+      loadSettings();
+      
+      // Restart auto updater timer
+      if (updateTimer) clearInterval(updateTimer);
+      fetchDashboardData();
+      updateTimer = setInterval(fetchDashboardData, REFRESH_INTERVAL);
+    }
+
+    function toggleUiVersionPreview() {
+      var ver = document.getElementById('setting-ui-version').value;
+      var themeRow = document.getElementById('setting-theme-row');
+      if (ver === 'classic') {
+        themeRow.style.display = 'none';
+      } else {
+        themeRow.style.display = 'block';
       }
     }
-    
+
+    function openSettings() {
+      document.getElementById('settings-modal').classList.remove('hidden');
+    }
+
+    function closeSettings() {
+      document.getElementById('settings-modal').classList.add('hidden');
+    }
+
+    // Theme Switcher for Dark/Light Mode (Premium only)
     function toggleTheme() {
       if (document.documentElement.classList.contains('dark')) {
         document.documentElement.classList.remove('dark');
@@ -301,13 +541,13 @@
         localStorage.setItem('theme', 'dark');
         document.getElementById('theme-btn').querySelector('span').innerText = '☀️';
       }
-      // Re-render charts to adjust styles for the new theme
       if (window.lastDashboardData) {
         renderDashboard(window.lastDashboardData);
       }
     }
 
-    initTheme();
+    // Load settings on load
+    loadSettings();
 
     function formatHashrate(value, currentUnit) {
       var hr = parseFloat(value || 0);
@@ -327,9 +567,6 @@
       return "฿" + v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 }) + " THB";
     }
 
-    // ⚠️ URL ของ Web App
-    var WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyY0q23xtkeMwM_3AeAxodKU0jjtMb7KAa0ewfkcP7b7coseLqROtMxErXYIRO6he4b/exec";
-
     function fetchDashboardData() {
       var script = document.createElement('script');
       script.src = WEB_APP_URL + "?callback=renderDashboard"; 
@@ -339,9 +576,9 @@
 
     window.onload = function() {
       fetchDashboardData();
-      setInterval(fetchDashboardData, 10000); 
+      updateTimer = setInterval(fetchDashboardData, REFRESH_INTERVAL);
       
-      // Hook up search filter
+      // Search filter hook
       document.getElementById('worker-search').addEventListener('input', function(e) {
         var query = e.target.value.toLowerCase();
         var cards = document.querySelectorAll('.worker-card');
@@ -361,6 +598,20 @@
       window.lastDashboardData = data;
 
       currentPriceThb = parseFloat(data.summary.tokenPriceThb || 0);
+
+      // Payout progress bar handler
+      var balanceRaw = parseFloat(data.summary.balance.replace(/,/g, '') || 0);
+      if (UI_VERSION === 'premium' && PAYOUT_TARGET > 0) {
+        document.getElementById('progress-bar-container').style.display = 'block';
+        var pct = (balanceRaw / PAYOUT_TARGET) * 100;
+        if (pct > 100) pct = 100;
+        document.getElementById('progress-percent').innerText = pct.toFixed(1) + "%";
+        document.getElementById('progress-fill').style.width = pct.toFixed(1) + "%";
+        document.getElementById('progress-current').innerText = balanceRaw.toLocaleString();
+        document.getElementById('progress-target').innerText = PAYOUT_TARGET.toLocaleString();
+      } else {
+        document.getElementById('progress-bar-container').style.display = 'none';
+      }
 
       document.getElementById('txt-time').innerText = data.summary.timestamp;
       document.getElementById('token-price').innerText = formatCryptoPriceThb(data.summary.tokenPriceThb);
@@ -417,12 +668,21 @@
       }
       document.getElementById('workers-container').innerHTML = workersHtml;
 
-      // Chart Stylings according to light/dark themes
-      var isDark = document.documentElement.classList.contains('dark');
+      // Adjust grid based on compact layout styles
+      var container = document.getElementById('workers-container');
+      if (UI_VERSION === 'premium') {
+        container.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4";
+      } else {
+        container.className = "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4";
+      }
+
+      // Chart Stylings according to light/dark and classic/premium themes
+      var isDark = document.documentElement.classList.contains('dark') && UI_VERSION === 'premium';
       var gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)';
       var tickColor = isDark ? '#94a3b8' : '#64748b';
       var tooltipBg = isDark ? '#0f172a' : '#ffffff';
       var tooltipText = isDark ? '#f8fafc' : '#1e293b';
+      var fontName = (UI_VERSION === 'premium') ? 'Outfit' : 'Mali';
 
       var chartOptions = {
         responsive: true,
@@ -431,44 +691,64 @@
           legend: { 
             labels: { 
               color: tickColor, 
-              font: { family: 'Mali', size: 11, weight: 'bold' } 
+              font: { family: fontName, size: 11, weight: 'bold' } 
             } 
           },
           tooltip: {
             backgroundColor: tooltipBg,
             titleColor: tooltipText,
             bodyColor: tooltipText,
-            titleFont: { family: 'Outfit', weight: 'bold' },
-            bodyFont: { family: 'Outfit' },
+            titleFont: { family: fontName, weight: 'bold' },
+            bodyFont: { family: fontName },
             borderColor: 'rgba(236, 72, 153, 0.2)',
             borderWidth: 1
           }
         },
         scales: {
-          x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { family: 'Outfit', size: 10 } } },
-          y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { family: 'Outfit', size: 10 } } }
+          x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { family: fontName, size: 10 } } },
+          y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { family: fontName, size: 10 } } }
         }
       };
+
+      // Set colors depending on theme (Premium color themes vs Classic theme)
+      var primaryLineColor = '#f97316';
+      var primaryAreaColor = 'rgba(249, 115, 22, 0.1)';
+      var chartColors = ['#38bdf8', '#2dd4bf', '#c084fc', '#f472b6', '#fb7185'];
+      
+      if (UI_VERSION === 'premium') {
+        if (UI_THEME === 'teal') {
+          primaryLineColor = '#0d9488';
+          primaryAreaColor = 'rgba(13, 148, 136, 0.1)';
+          chartColors = ['#ec4899', '#8b5cf6', '#ea580c', '#38bdf8', '#fb7185'];
+        } else if (UI_THEME === 'purple') {
+          primaryLineColor = '#8b5cf6';
+          primaryAreaColor = 'rgba(139, 92, 246, 0.1)';
+          chartColors = ['#2dd4bf', '#f472b6', '#38bdf8', '#ea580c', '#fb7185'];
+        } else if (UI_THEME === 'orange') {
+          primaryLineColor = '#ea580c';
+          primaryAreaColor = 'rgba(234, 88, 12, 0.1)';
+          chartColors = ['#8b5cf6', '#2dd4bf', '#38bdf8', '#f472b6', '#fb7185'];
+        }
+      }
 
       var datasetsHashrate = [{
         label: 'แรงขุดรวม (Total - Gh/s)',
         data: data.charts.totalHashrates,
-        borderColor: '#f97316', 
+        borderColor: primaryLineColor, 
         borderWidth: 3.5,
-        backgroundColor: 'rgba(249, 115, 22, 0.1)',
-        fill: true,
+        backgroundColor: primaryAreaColor,
+        fill: (UI_VERSION === 'premium'),
         tension: 0.4,
-        pointBackgroundColor: '#f97316',
+        pointBackgroundColor: primaryLineColor,
         pointRadius: 3
       }];
 
-      var colors = ['#38bdf8', '#2dd4bf', '#c084fc', '#f472b6', '#fb7185'];
       var colorIdx = 0;
       for (var workerName in data.charts.workers) {
         datasetsHashrate.push({
           label: workerName + ' (Gh/s)',
           data: data.charts.workers[workerName],
-          borderColor: colors[colorIdx % colors.length],
+          borderColor: chartColors[colorIdx % chartColors.length],
           borderWidth: 1.5,
           borderDash: [4, 4],
           fill: false,
@@ -487,6 +767,10 @@
           for (var i = 0; i < datasetsHashrate.length; i++) {
             existingDatasets[i].data = datasetsHashrate[i].data;
             existingDatasets[i].label = datasetsHashrate[i].label;
+            existingDatasets[i].borderColor = datasetsHashrate[i].borderColor;
+            existingDatasets[i].backgroundColor = datasetsHashrate[i].backgroundColor;
+            existingDatasets[i].fill = datasetsHashrate[i].fill;
+            existingDatasets[i].pointBackgroundColor = datasetsHashrate[i].pointBackgroundColor;
           }
         } else {
           hashrateChartInstance.data.datasets = datasetsHashrate;
@@ -501,18 +785,34 @@
 
       var barGradient = null;
       var ctxReward = document.getElementById('chartReward').getContext('2d');
-      if (ctxReward) {
-        barGradient = ctxReward.createLinearGradient(0, 0, 0, 300);
-        barGradient.addColorStop(0, 'rgba(244, 114, 182, 0.9)');
-        barGradient.addColorStop(1, 'rgba(236, 72, 153, 0.2)');
+      var rewardBarColor = 'rgba(244, 114, 182, 0.8)';
+      
+      if (UI_VERSION === 'premium') {
+        if (ctxReward) {
+          barGradient = ctxReward.createLinearGradient(0, 0, 0, 300);
+          if (UI_THEME === 'pink') {
+            barGradient.addColorStop(0, 'rgba(244, 114, 182, 0.9)');
+            barGradient.addColorStop(1, 'rgba(236, 72, 153, 0.2)');
+          } else if (UI_THEME === 'teal') {
+            barGradient.addColorStop(0, 'rgba(45, 212, 191, 0.9)');
+            barGradient.addColorStop(1, 'rgba(13, 148, 136, 0.2)');
+          } else if (UI_THEME === 'purple') {
+            barGradient.addColorStop(0, 'rgba(167, 139, 250, 0.9)');
+            barGradient.addColorStop(1, 'rgba(139, 92, 246, 0.2)');
+          } else if (UI_THEME === 'orange') {
+            barGradient.addColorStop(0, 'rgba(251, 146, 60, 0.9)');
+            barGradient.addColorStop(1, 'rgba(234, 88, 12, 0.2)');
+          }
+          rewardBarColor = barGradient;
+        }
       }
 
       var datasetsReward = [{
         label: 'จำนวนเหรียญรางวัลที่ได้รับ 🎁',
         data: data.charts.rewards,
-        backgroundColor: barGradient || 'rgba(244, 114, 182, 0.8)',
-        hoverBackgroundColor: 'rgba(236, 72, 153, 1)',
-        borderRadius: 8,
+        backgroundColor: rewardBarColor,
+        hoverBackgroundColor: (UI_VERSION === 'premium') ? 'rgba(236, 72, 153, 1)' : 'rgba(244, 114, 182, 1)',
+        borderRadius: (UI_VERSION === 'premium') ? 8 : 0,
         borderWidth: 0
       }];
 
