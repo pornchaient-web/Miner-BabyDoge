@@ -7,164 +7,319 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #fff0f5 0%, #e0f7fa 100%);
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --card-border: rgba(255, 255, 255, 0.5);
+      --text-primary: #334155;
+      --text-secondary: #64748b;
+      --card-shadow: 0 20px 40px -15px rgba(236, 72, 153, 0.1);
+      --input-bg: rgba(255, 255, 255, 0.9);
+      --input-border: rgba(236, 72, 153, 0.2);
+      --accent-color: #ec4899;
+      --glow-color: rgba(236, 72, 153, 0.15);
+    }
+    .dark {
+      --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #1e1b4b 100%);
+      --card-bg: rgba(20, 24, 43, 0.75);
+      --card-border: rgba(255, 255, 255, 0.04);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --card-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
+      --input-bg: rgba(15, 23, 42, 0.6);
+      --input-border: rgba(244, 114, 182, 0.1);
+      --accent-color: #f472b6;
+      --glow-color: rgba(244, 114, 182, 0.25);
+    }
     body {
       font-family: 'Mali', cursive;
-      background: linear-gradient(135deg, #fff0f5 0%, #e0f7fa 100%);
+      background: var(--bg-gradient);
       background-attachment: fixed;
+      color: var(--text-primary);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .font-num {
+      font-family: 'Outfit', sans-serif;
     }
     .cute-card {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(16px);
-      border: 3px solid rgba(255, 255, 255, 0.9);
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 2px solid var(--card-border);
       border-radius: 28px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .cute-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 25px 50px -12px var(--glow-color);
+    }
+    .neon-border-pink:hover { border-color: #ec4899; }
+    .neon-border-teal:hover { border-color: #0d9488; }
+    .neon-border-orange:hover { border-color: #ea580c; }
+    .neon-border-purple:hover { border-color: #8b5cf6; }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    /* Floating toggle */
+    .theme-toggle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 2px solid var(--card-border);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--card-shadow);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       transition: all 0.3s ease;
     }
-    .cute-card:hover { transform: translateY(-4px); }
-    .shadow-purple { box-shadow: 0 12px 30px -10px rgba(168, 85, 247, 0.25); }
-    .shadow-teal { box-shadow: 0 12px 30px -10px rgba(20, 184, 166, 0.25); }
-    .shadow-orange { box-shadow: 0 12px 30px -10px rgba(249, 115, 22, 0.25); }
-    .shadow-pink { box-shadow: 0 12px 30px -10px rgba(236, 72, 153, 0.25); }
-    .badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+    .theme-toggle:hover {
+      transform: scale(1.1) rotate(15deg);
+    }
   </style>
 </head>
-<body class="text-slate-700 min-h-screen p-4 md:p-8">
+<body class="min-h-screen p-4 md:p-8">
+
+  <!-- Floating Settings -->
+  <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+    <button onclick="toggleTheme()" id="theme-btn" class="theme-toggle" title="เปลี่ยนธีม">
+      <span class="text-xl">🌙</span>
+    </button>
+  </div>
 
   <div class="max-w-7xl mx-auto space-y-8">
     
-    <div class="cute-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-pink border-l-8 border-l-pink-400">
-      <div>
-        <div class="flex items-center gap-3">
-          <span class="text-4xl">🐶🍼</span>
-          <h1 class="text-2xl md:text-3xl font-extrabold text-pink-500 tracking-wide drop-shadow-sm">
-            BABYDOGE Mining Center ✨
-          </h1>
+    <!-- Top Header -->
+    <div class="cute-card p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-l-8 border-l-pink-400">
+      <div class="flex items-center gap-4">
+        <div class="w-16 h-16 rounded-3xl bg-pink-100 flex items-center justify-center text-4xl animate-bounce shadow-md">
+          🐶
         </div>
-        <div class="flex items-center gap-2 mt-2 text-xs md:text-sm text-slate-500 font-medium">
-          <span class="relative flex h-3 w-3">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
-          </span>
-          <p>ระบบอัปเดตอัตโนมัติ 💖 คำนวณเงินบาททุกๆ 10 วินาที</p>
+        <div>
+          <h1 class="text-2xl md:text-3xl font-extrabold text-pink-500 tracking-wide drop-shadow-sm flex items-center gap-2">
+            BABYDOGE Mining Center <span class="text-sm badge bg-pink-100 text-pink-600">v2.0 ✨</span>
+          </h1>
+          <div class="flex items-center gap-2 mt-1.5 text-xs md:text-sm text-slate-500 font-medium">
+            <span class="relative flex h-3 w-3">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
+            </span>
+            <p class="text-slate-600 dark:text-slate-400">ระบบประมวลผลการคำนวณสดและเงินบาทอัปเดตทุกๆ 10 วินาที</p>
+          </div>
         </div>
       </div>
-      <div class="bg-white/90 px-5 py-3 rounded-2xl border-2 border-pink-100 min-w-[180px] shadow-sm">
-        <span class="text-[11px] uppercase text-pink-400 font-bold tracking-wider">อัปเดตล่าสุด ⏰</span>
-        <span id="txt-time" class="text-sm font-bold text-slate-700 mt-0.5">-</span>
+      <div class="flex gap-3">
+        <div class="bg-white/40 dark:bg-slate-800/40 px-5 py-3 rounded-2xl border-2 border-pink-100 dark:border-pink-900/30 min-w-[180px] shadow-sm">
+          <span class="text-[10px] uppercase text-pink-400 dark:text-pink-300 font-bold tracking-wider block">อัปเดตล่าสุด ⏰</span>
+          <span id="txt-time" class="text-sm font-bold text-slate-700 dark:text-slate-200 mt-0.5 font-num">-</span>
+        </div>
       </div>
     </div>
 
+    <!-- Core Grid Stats -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="cute-card p-6 shadow-purple flex flex-col justify-between">
+      
+      <!-- Balance Card -->
+      <div class="cute-card p-6 neon-border-purple flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-start gap-2">
-            <span class="text-sm font-bold text-purple-400">💰 ยอด Balance</span>
+            <span class="text-sm font-bold text-purple-400 dark:text-purple-300">💰 ยอด Balance</span>
             <div class="text-right flex flex-col items-end">
-              <span class="badge bg-purple-100 text-purple-600 mb-1">เรทราคา ฿</span>
-              <span id="token-price" class="text-[12px] font-sans text-purple-400 font-bold">฿0.00000000000</span>
+              <span class="badge bg-purple-100 text-purple-600 dark:bg-purple-950/60 dark:text-purple-300 mb-1">เรทราคา ฿</span>
+              <span id="token-price" class="text-[11px] font-num text-purple-400 dark:text-purple-300 font-bold">฿0.00000000000</span>
             </div>
           </div>
-          <span id="card-balance" class="text-xl md:text-2xl font-extrabold text-purple-600 mt-2 block tracking-tight truncate">-</span>
-          <span id="card-balance-thb" class="text-lg font-bold text-purple-500 mt-1 block">≈ ฿0.00</span>
+          <span id="card-balance" class="text-xl md:text-2xl font-extrabold text-purple-600 dark:text-purple-400 mt-4 block tracking-tight truncate font-num">-</span>
+          <span id="card-balance-thb" class="text-lg font-bold text-purple-500 dark:text-purple-300 mt-1 block font-num">≈ ฿0.00</span>
         </div>
-        <span class="text-[12px] text-purple-400/80 mt-4 font-medium block">มูลค่าเหรียญที่มีทั้งหมด</span>
+        <span class="text-[11px] text-slate-400 dark:text-slate-500 mt-4 font-medium block">มูลค่าเหรียญที่มีทั้งหมด</span>
       </div>
 
-      <div class="cute-card p-6 shadow-teal flex flex-col justify-between">
+      <!-- Online Workers Card -->
+      <div class="cute-card p-6 neon-border-teal flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center">
-            <span class="text-sm font-bold text-teal-500">🖥️ เครื่องขุดออนไลน์</span>
-            <span class="badge bg-teal-100 text-teal-600">Active ✅</span>
+            <span class="text-sm font-bold text-teal-500 dark:text-teal-400">🖥️ เครื่องขุดออนไลน์</span>
+            <span class="badge bg-teal-100 text-teal-600 dark:bg-teal-950/60 dark:text-teal-300">Active ✅</span>
           </div>
-          <span id="card-workers" class="text-3xl font-extrabold text-teal-500 mt-4 block tracking-tight">-</span>
+          <span id="card-workers" class="text-3xl font-extrabold text-teal-500 mt-4 block tracking-tight font-num">-</span>
         </div>
-        <span class="text-[12px] text-teal-500/80 mt-4 font-medium block">จำนวนเครื่องที่กำลังทำงาน</span>
+        <span class="text-[11px] text-slate-400 dark:text-slate-500 mt-4 font-medium block">จำนวนเครื่องที่กำลังทำงาน</span>
       </div>
 
-      <div class="cute-card p-6 shadow-orange flex flex-col justify-between">
+      <!-- Hashrate Card -->
+      <div class="cute-card p-6 neon-border-orange flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center">
-            <span class="text-sm font-bold text-orange-400">⚡ แรงขุดรวมทั้งหมด</span>
-            <span class="badge bg-orange-100 text-orange-600">Power 💪</span>
+            <span class="text-sm font-bold text-orange-400 dark:text-orange-300">⚡ แรงขุดรวมทั้งหมด</span>
+            <span class="badge bg-orange-100 text-orange-600 dark:bg-orange-950/60 dark:text-orange-300">Power 💪</span>
           </div>
-          <span id="card-hashrate" class="text-2xl font-extrabold text-orange-500 mt-4 block tracking-tight">-</span>
+          <span id="card-hashrate" class="text-2xl font-extrabold text-orange-500 mt-4 block tracking-tight font-num">-</span>
         </div>
-        <span class="text-[12px] text-orange-400/80 mt-4 font-medium block">ประมวลผลฐานหน่วย Gh/s</span>
+        <span class="text-[11px] text-slate-400 dark:text-slate-500 mt-4 font-medium block">ประมวลผลรวม Gh/s</span>
       </div>
 
-      <div class="cute-card p-6 shadow-pink flex flex-col justify-between">
+      <!-- Latest Reward Card -->
+      <div class="cute-card p-6 neon-border-pink flex flex-col justify-between">
         <div>
           <div class="flex justify-between items-center">
-            <span class="text-sm font-bold text-pink-400">🎁 รางวัลล่าสุด</span>
-            <span class="badge bg-pink-100 text-pink-600">Payout 💸</span>
+            <span class="text-sm font-bold text-pink-400 dark:text-pink-300">🎁 รางวัลล่าสุด</span>
+            <span class="badge bg-pink-100 text-pink-600 dark:bg-pink-950/60 dark:text-pink-300">Payout 💸</span>
           </div>
-          <span id="card-reward" class="text-xl md:text-2xl font-extrabold text-pink-500 mt-3 block tracking-tight truncate">-</span>
-          <span id="card-reward-thb" class="text-lg font-bold text-rose-400 mt-1 block">≈ ฿0.00</span>
+          <span id="card-reward" class="text-xl md:text-2xl font-extrabold text-pink-500 dark:text-pink-400 mt-4 block tracking-tight truncate font-num">-</span>
+          <span id="card-reward-thb" class="text-lg font-bold text-rose-400 dark:text-rose-300 mt-1 block font-num">≈ ฿0.00</span>
         </div>
-        <span class="text-[12px] text-pink-400/80 mt-4 font-medium block">จากการจ่ายรอบล่าสุด</span>
+        <span class="text-[11px] text-slate-400 dark:text-slate-500 mt-4 font-medium block">จากการจ่ายรอบล่าสุด</span>
       </div>
     </div>
 
+    <!-- Mined rewards (24h, 7d, 30d) -->
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div class="cute-card p-6 shadow-orange flex flex-col justify-between border-b-4 border-b-orange-400">
+      <!-- 24H -->
+      <div class="cute-card p-6 neon-border-orange flex flex-col justify-between border-b-4 border-b-orange-400">
         <div>
           <div class="flex justify-between items-center">
-            <span class="text-sm font-bold text-orange-500">☀️ รางวัลที่ขุดได้ 24 ชม.</span>
-            <span class="badge bg-orange-100 text-orange-600">Daily 24H</span>
+            <span class="text-sm font-bold text-orange-500 dark:text-orange-400">☀️ รางวัลที่ขุดได้ 24 ชม.</span>
+            <span class="badge bg-orange-100 text-orange-600 dark:bg-orange-950/60 dark:text-orange-300">Daily 24H</span>
           </div>
-          <span id="card-reward-24h" class="text-lg md:text-xl font-extrabold text-orange-600 mt-4 block tracking-tight truncate">-</span>
-          <span id="card-reward-24h-thb" class="text-md font-bold text-orange-500 mt-1 block">≈ ฿0.00</span>
+          <span id="card-reward-24h" class="text-lg md:text-xl font-extrabold text-orange-600 dark:text-orange-400 mt-4 block tracking-tight truncate font-num">-</span>
+          <span id="card-reward-24h-thb" class="text-md font-bold text-orange-500 dark:text-orange-300 mt-1 block font-num">≈ ฿0.00</span>
         </div>
       </div>
 
-      <div class="cute-card p-6 shadow-purple flex flex-col justify-between border-b-4 border-b-purple-400">
+      <!-- 7D -->
+      <div class="cute-card p-6 neon-border-purple flex flex-col justify-between border-b-4 border-b-purple-400">
         <div>
           <div class="flex justify-between items-center">
-            <span class="text-sm font-bold text-purple-500">🗓️ รางวัลที่ขุดได้ 7 วัน</span>
-            <span class="badge bg-purple-100 text-purple-600">Weekly 7D</span>
+            <span class="text-sm font-bold text-purple-500 dark:text-purple-400">🗓️ รางวัลที่ขุดได้ 7 วัน</span>
+            <span class="badge bg-purple-100 text-purple-600 dark:bg-purple-950/60 dark:text-purple-300">Weekly 7D</span>
           </div>
-          <span id="card-reward-7d" class="text-lg md:text-xl font-extrabold text-purple-600 mt-4 block tracking-tight truncate">-</span>
-          <span id="card-reward-7d-thb" class="text-md font-bold text-purple-500 mt-1 block">≈ ฿0.00</span>
+          <span id="card-reward-7d" class="text-lg md:text-xl font-extrabold text-purple-600 dark:text-purple-400 mt-4 block tracking-tight truncate font-num">-</span>
+          <span id="card-reward-7d-thb" class="text-md font-bold text-purple-500 dark:text-purple-300 mt-1 block font-num">≈ ฿0.00</span>
         </div>
       </div>
 
-      <div class="cute-card p-6 shadow-pink flex flex-col justify-between border-b-4 border-b-pink-400">
+      <!-- 30D -->
+      <div class="cute-card p-6 neon-border-pink flex flex-col justify-between border-b-4 border-b-pink-400">
         <div>
           <div class="flex justify-between items-center">
-            <span class="text-sm font-bold text-pink-500">🌙 รางวัลที่ขุดได้ 30 วัน</span>
-            <span class="badge bg-pink-100 text-pink-600">Monthly 30D</span>
+            <span class="text-sm font-bold text-pink-500 dark:text-pink-400">🌙 รางวัลที่ขุดได้ 30 วัน</span>
+            <span class="badge bg-pink-100 text-pink-600 dark:bg-pink-950/60 dark:text-pink-300">Monthly 30D</span>
           </div>
-          <span id="card-reward-30d" class="text-lg md:text-xl font-extrabold text-pink-600 mt-4 block tracking-tight truncate">-</span>
-          <span id="card-reward-30d-thb" class="text-md font-bold text-pink-500 mt-1 block">≈ ฿0.00</span>
+          <span id="card-reward-30d" class="text-lg md:text-xl font-extrabold text-pink-600 dark:text-pink-400 mt-4 block tracking-tight truncate font-num">-</span>
+          <span id="card-reward-30d-thb" class="text-md font-bold text-pink-500 dark:text-pink-300 mt-1 block font-num">≈ ฿0.00</span>
         </div>
       </div>
     </div>
 
-    <div class="space-y-4">
-      <div class="flex items-center gap-3">
-        <h2 class="text-md font-bold text-pink-500 tracking-wide drop-shadow-sm">📋 สถานะน้องๆ เครื่องขุด</h2>
-        <div class="h-[2px] flex-1 bg-pink-200 rounded-full"></div>
+    <!-- Workers & Calculator Area -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Worker Statuses -->
+      <div class="lg:col-span-2 space-y-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div class="flex items-center gap-3">
+            <span class="text-xl">📋</span>
+            <h2 class="text-lg font-bold text-pink-500 tracking-wide drop-shadow-sm">สถานะเครื่องขุดของคุณ</h2>
+          </div>
+          
+          <!-- Search box -->
+          <div class="relative w-full sm:w-64">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 pointer-events-none">🔍</span>
+            <input type="text" id="worker-search" placeholder="ค้นหาเครื่องขุด..." 
+                   class="w-full pl-9 pr-4 py-2 border-2 border-slate-200 dark:border-slate-700/60 rounded-2xl bg-white/60 dark:bg-slate-900/60 text-sm focus:outline-none focus:border-pink-400 focus:bg-white dark:focus:bg-slate-900 transition-all text-slate-700 dark:text-slate-200">
+          </div>
+        </div>
+        
+        <div id="workers-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <!-- Workers will be dynamically rendered here -->
+        </div>
       </div>
-      <div id="workers-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+
+      <!-- Live Income Calculator -->
+      <div class="space-y-6">
+        <div class="flex items-center gap-3">
+          <span class="text-xl font-bold">🧮</span>
+          <h2 class="text-lg font-bold text-pink-500 tracking-wide drop-shadow-sm">เครื่องคำนวณรายได้จำลอง</h2>
+        </div>
+        
+        <div class="cute-card p-6 space-y-4 neon-border-pink">
+          <div class="space-y-2">
+            <label class="text-sm font-bold text-slate-500 dark:text-slate-300 block">ระบุแรงขุดเพื่อจำลองรายได้:</label>
+            <div class="flex gap-2">
+              <input type="number" id="calc-hashrate" value="10" min="1" step="any" oninput="updateCalculator()"
+                     class="w-full px-4 py-2.5 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl bg-white/80 dark:bg-slate-900/80 text-sm font-bold font-num text-slate-700 dark:text-slate-200 focus:outline-none focus:border-pink-400">
+              <select id="calc-unit" onchange="updateCalculator()"
+                      class="px-3 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl bg-white/85 dark:bg-slate-900/85 text-sm font-bold text-slate-600 dark:text-slate-200 focus:outline-none">
+                <option value="Gh/s">Gh/s</option>
+                <option value="Mh/s">Mh/s</option>
+                <option value="Th/s">Th/s</option>
+              </select>
+            </div>
+            <p class="text-[10px] text-slate-400 font-medium">*คำนวณจากประสิทธิภาพและเรตขุดจริงเฉลี่ย 24 ชม. ล่าสุดของคุณ</p>
+          </div>
+          
+          <div class="border-t border-slate-100 dark:border-slate-800/60 pt-4 space-y-3">
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-slate-500 dark:text-slate-400">รายวัน (24H):</span>
+              <div class="text-right">
+                <span id="calc-result-daily" class="font-extrabold text-pink-500 font-num">0 BABYDOGE</span>
+                <span id="calc-result-daily-thb" class="block text-[10px] text-slate-400 font-num">≈ ฿0.00 THB</span>
+              </div>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-slate-500 dark:text-slate-400">รายสัปดาห์ (7D):</span>
+              <div class="text-right">
+                <span id="calc-result-weekly" class="font-extrabold text-pink-500 font-num">0 BABYDOGE</span>
+                <span id="calc-result-weekly-thb" class="block text-[10px] text-slate-400 font-num">≈ ฿0.00 THB</span>
+              </div>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+              <span class="font-bold text-slate-500 dark:text-slate-400">รายเดือน (30D):</span>
+              <div class="text-right">
+                <span id="calc-result-monthly" class="font-extrabold text-pink-500 font-num">0 BABYDOGE</span>
+                <span id="calc-result-monthly-thb" class="block text-[10px] text-slate-400 font-num">≈ ฿0.00 THB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- Re-designed Charts Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <div class="cute-card p-6 space-y-4 shadow-teal">
+      <!-- Hashrate Trend Line Chart -->
+      <div class="cute-card p-6 space-y-4 neon-border-teal">
         <div class="flex justify-between items-center">
-          <h3 class="text-md font-bold text-teal-500">📈 แนวโน้มแรงขุด (Gh/s)</h3>
-          <span class="badge bg-teal-50 text-teal-400">ย้อนหลัง 24 จุด</span>
+          <div class="flex items-center gap-2">
+            <span class="text-lg">📈</span>
+            <h3 class="text-md font-bold text-teal-500 dark:text-teal-400">แนวโน้มแรงขุดรวมและรายเครื่อง</h3>
+          </div>
+          <span class="badge bg-teal-50 text-teal-400 dark:bg-teal-950/60 dark:text-teal-300">ย้อนหลัง 24 จุด</span>
         </div>
-        <div class="relative h-[320px]"><canvas id="chartHashrate"></canvas></div>
+        <div class="relative h-[340px]"><canvas id="chartHashrate"></canvas></div>
       </div>
 
-      <div class="cute-card p-6 space-y-4 shadow-pink">
+      <!-- Reward Payout History Bar Chart -->
+      <div class="cute-card p-6 space-y-4 neon-border-pink">
         <div class="flex justify-between items-center">
-          <h3 class="text-md font-bold text-pink-500">🎉 ประวัติรับรางวัล (BABYDOGE)</h3>
-          <span class="badge bg-pink-50 text-pink-400">ย้อนหลัง 24 จุด</span>
+          <div class="flex items-center gap-2">
+            <span class="text-lg">🎉</span>
+            <h3 class="text-md font-bold text-pink-500 dark:text-pink-400">ประวัติรับรางวัลและ Payouts</h3>
+          </div>
+          <span class="badge bg-pink-50 text-pink-400 dark:bg-pink-950/60 dark:text-pink-300">ย้อนหลัง 24 จุด</span>
         </div>
-        <div class="relative h-[320px]"><canvas id="chartReward"></canvas></div>
+        <div class="relative h-[340px]"><canvas id="chartReward"></canvas></div>
       </div>
     </div>
     
@@ -173,6 +328,39 @@
   <script>
     var hashrateChartInstance = null;
     var rewardChartInstance = null;
+    var currentDailyRewardPerGhs = 0;
+    var currentPriceThb = 0;
+    var currentWorkersData = [];
+
+    // Theme Switcher logic
+    function initTheme() {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-btn').querySelector('span').innerText = '☀️';
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('theme-btn').querySelector('span').innerText = '🌙';
+      }
+    }
+    
+    function toggleTheme() {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        document.getElementById('theme-btn').querySelector('span').innerText = '🌙';
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        document.getElementById('theme-btn').querySelector('span').innerText = '☀️';
+      }
+      // Re-render charts to adjust styles for the new theme
+      if (window.lastDashboardData) {
+        renderDashboard(window.lastDashboardData);
+      }
+    }
+
+    initTheme();
 
     function formatHashrate(value, currentUnit) {
       var hr = parseFloat(value || 0);
@@ -192,7 +380,7 @@
       return "฿" + v.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 4 }) + " THB";
     }
 
-    // ⚠️ นำ URL เว็บแอปที่ได้จากขั้นตอน Deploy ไปวางในเครื่องหมายคำพูดด้านล่างนี้ครับ
+    // ⚠️ URL ของ Web App
     var WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyY0q23xtkeMwM_3AeAxodKU0jjtMb7KAa0ewfkcP7b7coseLqROtMxErXYIRO6he4b/exec";
 
     function fetchDashboardData() {
@@ -205,10 +393,61 @@
     window.onload = function() {
       fetchDashboardData();
       setInterval(fetchDashboardData, 10000); 
+      
+      // Hook up search filter
+      document.getElementById('worker-search').addEventListener('input', function(e) {
+        var query = e.target.value.toLowerCase();
+        var cards = document.querySelectorAll('.worker-card');
+        cards.forEach(function(card) {
+          var name = card.getAttribute('data-name').toLowerCase();
+          if (name.includes(query)) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
     };
+
+    function updateCalculator() {
+      var hashrate = parseFloat(document.getElementById('calc-hashrate').value || 0);
+      var unit = document.getElementById('calc-unit').value;
+      
+      var hashrateGhs = hashrate;
+      if (unit === 'Mh/s') {
+        hashrateGhs = hashrate / 1000;
+      } else if (unit === 'Th/s') {
+        hashrateGhs = hashrate * 1000;
+      }
+      
+      var daily = hashrateGhs * currentDailyRewardPerGhs;
+      var weekly = daily * 7;
+      var monthly = daily * 30;
+      
+      document.getElementById('calc-result-daily').innerText = daily.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " BABYDOGE";
+      document.getElementById('calc-result-daily-thb').innerText = "≈ " + formatThbValue(daily * currentPriceThb);
+      
+      document.getElementById('calc-result-weekly').innerText = weekly.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " BABYDOGE";
+      document.getElementById('calc-result-weekly-thb').innerText = "≈ " + formatThbValue(weekly * currentPriceThb);
+      
+      document.getElementById('calc-result-monthly').innerText = monthly.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " BABYDOGE";
+      document.getElementById('calc-result-monthly-thb').innerText = "≈ " + formatThbValue(monthly * currentPriceThb);
+    }
 
     function renderDashboard(data) {
       if (!data) return;
+      window.lastDashboardData = data;
+
+      // Extract current status variables for calculator
+      var totalHashrate = parseFloat(data.summary.totalHashrate || 0);
+      var dailyReward = parseFloat(data.summary.dailyReward.replace(/,/g, '') || 0);
+      currentPriceThb = parseFloat(data.summary.tokenPriceThb || 0);
+      if (totalHashrate > 0) {
+        currentDailyRewardPerGhs = dailyReward / totalHashrate;
+      } else {
+        currentDailyRewardPerGhs = 0;
+      }
+      updateCalculator();
 
       document.getElementById('txt-time').innerText = data.summary.timestamp;
       document.getElementById('token-price').innerText = formatCryptoPriceThb(data.summary.tokenPriceThb);
@@ -227,38 +466,63 @@
       document.getElementById('card-reward-30d').innerText = data.summary.monthlyReward;
       document.getElementById('card-reward-30d-thb').innerText = "≈ " + formatThbValue(data.summary.monthlyRewardThb);
 
+      var searchQuery = document.getElementById('worker-search').value.toLowerCase();
       var workersHtml = '';
       data.summary.workers.forEach(function(worker) {
         var isOnline = worker.hashrate > 0;
         var dotColor = isOnline ? 'bg-teal-400' : 'bg-slate-300';
-        var borderGlow = isOnline ? 'border-teal-200 bg-teal-50/50' : 'border-slate-200 bg-slate-50';
-        var statusBg = isOnline ? 'bg-teal-100 text-teal-600' : 'bg-slate-200 text-slate-500';
+        var borderGlow = isOnline ? 'border-teal-200 bg-teal-50/20 dark:border-teal-900/30' : 'border-slate-200 bg-slate-50/30 dark:border-slate-800/40';
+        var statusBg = isOnline ? 'bg-teal-100 text-teal-600 dark:bg-teal-950/60 dark:text-teal-300' : 'bg-slate-200 text-slate-500 dark:bg-slate-800 dark:text-slate-400';
         var displayedHashrate = isOnline ? formatHashrate(worker.hashrate, worker.unit) : 'Zzz..';
+        var displayStyle = (worker.name.toLowerCase().includes(searchQuery)) ? '' : 'display: none;';
         
         workersHtml += `
-          <div class="rounded-2xl p-4 border-2 ${borderGlow} flex justify-between items-center transition-all hover:scale-105 shadow-sm">
+          <div class="worker-card rounded-2xl p-4 border-2 ${borderGlow} flex justify-between items-center transition-all hover:scale-105 shadow-sm" data-name="${worker.name}" style="${displayStyle}">
             <div class="space-y-1">
               <div class="flex items-center gap-2">
-                <span class="h-3 w-3 rounded-full ${dotColor} ${isOnline ? 'shadow-[0_0_8px_#2dd4bf]' : ''}"></span>
-                <span class="text-sm font-bold text-slate-700 tracking-tight">${worker.name}</span>
+                <span class="h-3 w-3 rounded-full ${dotColor} ${isOnline ? 'shadow-[0_0_8px_#2dd4bf] animate-pulse' : ''}"></span>
+                <span class="text-sm font-bold text-slate-700 dark:text-slate-200 tracking-tight">${worker.name}</span>
               </div>
-              <span class="text-[10px] text-slate-400 block font-semibold">หน่วย: ${worker.unit}</span>
+              <span class="text-[10px] text-slate-400 dark:text-slate-500 block font-semibold">หน่วย: ${worker.unit}</span>
             </div>
             <div class="text-right">
-              <span class="text-xs px-2.5 py-1 rounded-xl font-bold ${statusBg}">${displayedHashrate}</span>
+              <span class="text-xs px-2.5 py-1 rounded-xl font-bold font-num ${statusBg}">${displayedHashrate}</span>
             </div>
           </div>
         `;
       });
       document.getElementById('workers-container').innerHTML = workersHtml;
 
+      // Chart Stylings according to light/dark themes
+      var isDark = document.documentElement.classList.contains('dark');
+      var gridColor = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)';
+      var tickColor = isDark ? '#94a3b8' : '#64748b';
+      var tooltipBg = isDark ? '#0f172a' : '#ffffff';
+      var tooltipText = isDark ? '#f8fafc' : '#1e293b';
+
       var chartOptions = {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { labels: { color: '#64748b', font: { family: 'Mali', size: 12, weight: 'bold' } } } },
+        plugins: { 
+          legend: { 
+            labels: { 
+              color: tickColor, 
+              font: { family: 'Mali', size: 11, weight: 'bold' } 
+            } 
+          },
+          tooltip: {
+            backgroundColor: tooltipBg,
+            titleColor: tooltipText,
+            bodyColor: tooltipText,
+            titleFont: { family: 'Outfit', weight: 'bold' },
+            bodyFont: { family: 'Outfit' },
+            borderColor: 'rgba(236, 72, 153, 0.2)',
+            borderWidth: 1
+          }
+        },
         scales: {
-          x: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { color: '#94a3b8', font: { family: 'Mali' } } },
-          y: { grid: { color: 'rgba(0,0,0,0.03)' }, ticks: { color: '#94a3b8', font: { family: 'Mali' } } }
+          x: { grid: { color: gridColor }, ticks: { color: tickColor, font: { family: 'Outfit', size: 10 } } },
+          y: { grid: { color: gridColor }, ticks: { color: tickColor, font: { family: 'Outfit', size: 10 } } }
         }
       };
 
@@ -266,59 +530,69 @@
         label: 'แรงขุดรวม (Total - Gh/s)',
         data: data.charts.totalHashrates,
         borderColor: '#f97316', 
-        borderWidth: 3,
+        borderWidth: 3.5,
         backgroundColor: 'rgba(249, 115, 22, 0.1)',
         fill: true,
         tension: 0.4,
-        pointBackgroundColor: '#f97316'
+        pointBackgroundColor: '#f97316',
+        pointRadius: 3
       }];
 
-      var colors = ['#0ea5e9', '#14b8a6', '#a855f7', '#ec4899', '#f43f5e'];
+      var colors = ['#38bdf8', '#2dd4bf', '#c084fc', '#f472b6', '#fb7185'];
       var colorIdx = 0;
       for (var workerName in data.charts.workers) {
         datasetsHashrate.push({
           label: workerName + ' (Gh/s)',
           data: data.charts.workers[workerName],
           borderColor: colors[colorIdx % colors.length],
-          borderWidth: 2,
-          borderDash: [5, 5],
+          borderWidth: 1.5,
+          borderDash: [4, 4],
           fill: false,
           tension: 0.3,
-          pointRadius: 1
+          pointRadius: 0,
+          hoverPointRadius: 2
         });
         colorIdx++;
       }
 
       if (hashrateChartInstance) {
         hashrateChartInstance.data.labels = data.charts.labels;
-        for (var i = 0; i < datasetsHashrate.length; i++) {
-          if (hashrateChartInstance.data.datasets[i]) { hashrateChartInstance.data.datasets[i].data = datasetsHashrate[i].data; } 
-          else { hashrateChartInstance.data.datasets.push(datasetsHashrate[i]); }
-        }
+        hashrateChartInstance.data.datasets = datasetsHashrate;
+        hashrateChartInstance.options = chartOptions;
         hashrateChartInstance.update(); 
       } else {
         var ctxHashrate = document.getElementById('chartHashrate').getContext('2d');
         hashrateChartInstance = new Chart(ctxHashrate, { type: 'line', data: { labels: data.charts.labels, datasets: datasetsHashrate }, options: chartOptions });
       }
 
+      var barGradient = null;
+      var ctxReward = document.getElementById('chartReward').getContext('2d');
+      if (ctxReward) {
+        barGradient = ctxReward.createLinearGradient(0, 0, 0, 300);
+        barGradient.addColorStop(0, 'rgba(244, 114, 182, 0.9)');
+        barGradient.addColorStop(1, 'rgba(236, 72, 153, 0.2)');
+      }
+
+      var datasetsReward = [{
+        label: 'จำนวนเหรียญรางวัลที่ได้รับ 🎁',
+        data: data.charts.rewards,
+        backgroundColor: barGradient || 'rgba(244, 114, 182, 0.8)',
+        hoverBackgroundColor: 'rgba(236, 72, 153, 1)',
+        borderRadius: 8,
+        borderWidth: 0
+      }];
+
       if (rewardChartInstance) {
         rewardChartInstance.data.labels = data.charts.labels;
-        rewardChartInstance.data.datasets[0].data = data.charts.rewards;
+        rewardChartInstance.data.datasets = datasetsReward;
+        rewardChartInstance.options = chartOptions;
         rewardChartInstance.update(); 
       } else {
-        var ctxReward = document.getElementById('chartReward').getContext('2d');
         rewardChartInstance = new Chart(ctxReward, {
           type: 'bar',
           data: {
             labels: data.charts.labels,
-            datasets: [{
-              label: 'จำนวนเหรียญรางวัลที่ได้รับ 🎁',
-              data: data.charts.rewards,
-              backgroundColor: 'rgba(244, 114, 182, 0.8)',
-              hoverBackgroundColor: 'rgba(236, 72, 153, 1)',
-              borderRadius: 8,
-              borderWidth: 0
-            }]
+            datasets: datasetsReward
           },
           options: chartOptions
         });
