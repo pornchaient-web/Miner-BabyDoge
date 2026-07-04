@@ -382,18 +382,20 @@
       var searchQuery = document.getElementById('worker-search').value.toLowerCase();
       var workersHtml = '';
       data.summary.workers.forEach(function(worker) {
-        var isOnline = worker.hashrate > 0;
-        var dotColor = isOnline ? 'bg-teal-400' : 'bg-slate-300';
-        var borderGlow = isOnline ? 'border-teal-200 bg-teal-50/20 dark:border-teal-900/30' : 'border-slate-200 bg-slate-50/30 dark:border-slate-800/40';
-        var statusBg = isOnline ? 'bg-teal-100 text-teal-600 dark:bg-teal-950/60 dark:text-teal-300' : 'bg-slate-200 text-slate-500 dark:bg-slate-800 dark:text-slate-400';
-        var displayedHashrate = isOnline ? formatHashrate(worker.hashrate, worker.unit) : 'Zzz..';
+        var isOnline = worker.online;
+        if (!isOnline) return; // ข้ามเครื่องขุดที่สถานะออฟไลน์
+        
+        var dotColor = 'bg-teal-400';
+        var borderGlow = 'border-teal-200 bg-teal-50/20 dark:border-teal-900/30';
+        var statusBg = 'bg-teal-100 text-teal-600 dark:bg-teal-950/60 dark:text-teal-300';
+        var displayedHashrate = formatHashrate(worker.hashrate, worker.unit);
         var displayStyle = (worker.name.toLowerCase().includes(searchQuery)) ? '' : 'display: none;';
         
         workersHtml += `
           <div class="worker-card rounded-2xl p-4 border-2 ${borderGlow} flex justify-between items-center transition-all hover:scale-105 shadow-sm" data-name="${worker.name}" style="${displayStyle}">
             <div class="space-y-1">
               <div class="flex items-center gap-2">
-                <span class="h-3 w-3 rounded-full ${dotColor} ${isOnline ? 'shadow-[0_0_8px_#2dd4bf] animate-pulse' : ''}"></span>
+                <span class="h-3 w-3 rounded-full ${dotColor} shadow-[0_0_8px_#2dd4bf] animate-pulse"></span>
                 <span class="text-sm font-bold text-slate-700 dark:text-slate-200 tracking-tight">${worker.name}</span>
               </div>
               <span class="text-[10px] text-slate-400 dark:text-slate-500 block font-semibold">หน่วย: ${worker.unit}</span>
@@ -404,6 +406,15 @@
           </div>
         `;
       });
+      
+      if (workersHtml === '') {
+        workersHtml = `
+          <div class="col-span-full cute-card p-8 text-center text-slate-400 dark:text-slate-500 border-dashed border-2">
+            <span class="text-3xl block mb-2 font-num">💤</span>
+            <p class="text-sm font-bold">ไม่มีเครื่องขุดออนไลน์อยู่ในขณะนี้</p>
+          </div>
+        `;
+      }
       document.getElementById('workers-container').innerHTML = workersHtml;
 
       // Chart Stylings according to light/dark themes
