@@ -222,77 +222,24 @@
       </div>
     </div>
 
-    <!-- Workers & Calculator Area -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      
-      <!-- Worker Statuses -->
-      <div class="lg:col-span-2 space-y-6">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div class="flex items-center gap-3">
-            <span class="text-xl">📋</span>
-            <h2 class="text-lg font-bold text-pink-500 tracking-wide drop-shadow-sm">สถานะเครื่องขุดของคุณ</h2>
-          </div>
-          
-          <!-- Search box -->
-          <div class="relative w-full sm:w-64">
-            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 pointer-events-none">🔍</span>
-            <input type="text" id="worker-search" placeholder="ค้นหาเครื่องขุด..." 
-                   class="w-full pl-9 pr-4 py-2 border-2 border-slate-200 dark:border-slate-700/60 rounded-2xl bg-white/60 dark:bg-slate-900/60 text-sm focus:outline-none focus:border-pink-400 focus:bg-white dark:focus:bg-slate-900 transition-all text-slate-700 dark:text-slate-200">
-          </div>
+    <!-- Workers Area -->
+    <div class="space-y-6">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div class="flex items-center gap-3">
+          <span class="text-xl">📋</span>
+          <h2 class="text-lg font-bold text-pink-500 tracking-wide drop-shadow-sm">สถานะเครื่องขุดของคุณ</h2>
         </div>
         
-        <div id="workers-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <!-- Workers will be dynamically rendered here -->
+        <!-- Search box -->
+        <div class="relative w-full sm:w-64">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400 pointer-events-none">🔍</span>
+          <input type="text" id="worker-search" placeholder="ค้นหาเครื่องขุด..." 
+                 class="w-full pl-9 pr-4 py-2 border-2 border-slate-200 dark:border-slate-700/60 rounded-2xl bg-white/60 dark:bg-slate-900/60 text-sm focus:outline-none focus:border-pink-400 focus:bg-white dark:focus:bg-slate-900 transition-all text-slate-700 dark:text-slate-200">
         </div>
       </div>
-
-      <!-- Live Income Calculator -->
-      <div class="space-y-6">
-        <div class="flex items-center gap-3">
-          <span class="text-xl font-bold">🧮</span>
-          <h2 class="text-lg font-bold text-pink-500 tracking-wide drop-shadow-sm">เครื่องคำนวณรายได้จำลอง</h2>
-        </div>
-        
-        <div class="cute-card p-6 space-y-4 neon-border-pink">
-          <div class="space-y-2">
-            <label class="text-sm font-bold text-slate-500 dark:text-slate-300 block">ระบุแรงขุดเพื่อจำลองรายได้:</label>
-            <div class="flex gap-2">
-              <input type="number" id="calc-hashrate" value="10" min="1" step="any" oninput="updateCalculator()"
-                     class="w-full px-4 py-2.5 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl bg-white/80 dark:bg-slate-900/80 text-sm font-bold font-num text-slate-700 dark:text-slate-200 focus:outline-none focus:border-pink-400">
-              <select id="calc-unit" onchange="updateCalculator()"
-                      class="px-3 border-2 border-slate-200 dark:border-slate-700/60 rounded-xl bg-white/85 dark:bg-slate-900/85 text-sm font-bold text-slate-600 dark:text-slate-200 focus:outline-none">
-                <option value="Gh/s">Gh/s</option>
-                <option value="Mh/s">Mh/s</option>
-                <option value="Th/s">Th/s</option>
-              </select>
-            </div>
-            <p class="text-[10px] text-slate-400 font-medium">*คำนวณจากประสิทธิภาพและเรตขุดจริงเฉลี่ย 24 ชม. ล่าสุดของคุณ</p>
-          </div>
-          
-          <div class="border-t border-slate-100 dark:border-slate-800/60 pt-4 space-y-3">
-            <div class="flex justify-between items-center text-xs">
-              <span class="font-bold text-slate-500 dark:text-slate-400">รายวัน (24H):</span>
-              <div class="text-right">
-                <span id="calc-result-daily" class="font-extrabold text-pink-500 font-num">0 BABYDOGE</span>
-                <span id="calc-result-daily-thb" class="block text-[10px] text-slate-400 font-num">≈ ฿0.00 THB</span>
-              </div>
-            </div>
-            <div class="flex justify-between items-center text-xs">
-              <span class="font-bold text-slate-500 dark:text-slate-400">รายสัปดาห์ (7D):</span>
-              <div class="text-right">
-                <span id="calc-result-weekly" class="font-extrabold text-pink-500 font-num">0 BABYDOGE</span>
-                <span id="calc-result-weekly-thb" class="block text-[10px] text-slate-400 font-num">≈ ฿0.00 THB</span>
-              </div>
-            </div>
-            <div class="flex justify-between items-center text-xs">
-              <span class="font-bold text-slate-500 dark:text-slate-400">รายเดือน (30D):</span>
-              <div class="text-right">
-                <span id="calc-result-monthly" class="font-extrabold text-pink-500 font-num">0 BABYDOGE</span>
-                <span id="calc-result-monthly-thb" class="block text-[10px] text-slate-400 font-num">≈ ฿0.00 THB</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      
+      <div id="workers-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <!-- Workers will be dynamically rendered here -->
       </div>
     </div>
 
@@ -409,45 +356,11 @@
       });
     };
 
-    function updateCalculator() {
-      var hashrate = parseFloat(document.getElementById('calc-hashrate').value || 0);
-      var unit = document.getElementById('calc-unit').value;
-      
-      var hashrateGhs = hashrate;
-      if (unit === 'Mh/s') {
-        hashrateGhs = hashrate / 1000;
-      } else if (unit === 'Th/s') {
-        hashrateGhs = hashrate * 1000;
-      }
-      
-      var daily = hashrateGhs * currentDailyRewardPerGhs;
-      var weekly = daily * 7;
-      var monthly = daily * 30;
-      
-      document.getElementById('calc-result-daily').innerText = daily.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " BABYDOGE";
-      document.getElementById('calc-result-daily-thb').innerText = "≈ " + formatThbValue(daily * currentPriceThb);
-      
-      document.getElementById('calc-result-weekly').innerText = weekly.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " BABYDOGE";
-      document.getElementById('calc-result-weekly-thb').innerText = "≈ " + formatThbValue(weekly * currentPriceThb);
-      
-      document.getElementById('calc-result-monthly').innerText = monthly.toLocaleString(undefined, { maximumFractionDigits: 0 }) + " BABYDOGE";
-      document.getElementById('calc-result-monthly-thb').innerText = "≈ " + formatThbValue(monthly * currentPriceThb);
-    }
-
     function renderDashboard(data) {
       if (!data) return;
       window.lastDashboardData = data;
 
-      // Extract current status variables for calculator
-      var totalHashrate = parseFloat(data.summary.totalHashrate || 0);
-      var dailyReward = parseFloat(data.summary.dailyReward.replace(/,/g, '') || 0);
       currentPriceThb = parseFloat(data.summary.tokenPriceThb || 0);
-      if (totalHashrate > 0) {
-        currentDailyRewardPerGhs = dailyReward / totalHashrate;
-      } else {
-        currentDailyRewardPerGhs = 0;
-      }
-      updateCalculator();
 
       document.getElementById('txt-time').innerText = data.summary.timestamp;
       document.getElementById('token-price').innerText = formatCryptoPriceThb(data.summary.tokenPriceThb);
@@ -557,9 +470,19 @@
 
       if (hashrateChartInstance) {
         hashrateChartInstance.data.labels = data.charts.labels;
-        hashrateChartInstance.data.datasets = datasetsHashrate;
+        
+        var existingDatasets = hashrateChartInstance.data.datasets;
+        if (existingDatasets.length === datasetsHashrate.length) {
+          for (var i = 0; i < datasetsHashrate.length; i++) {
+            existingDatasets[i].data = datasetsHashrate[i].data;
+            existingDatasets[i].label = datasetsHashrate[i].label;
+          }
+        } else {
+          hashrateChartInstance.data.datasets = datasetsHashrate;
+        }
+        
         hashrateChartInstance.options = chartOptions;
-        hashrateChartInstance.update(); 
+        hashrateChartInstance.update('none'); 
       } else {
         var ctxHashrate = document.getElementById('chartHashrate').getContext('2d');
         hashrateChartInstance = new Chart(ctxHashrate, { type: 'line', data: { labels: data.charts.labels, datasets: datasetsHashrate }, options: chartOptions });
@@ -586,7 +509,7 @@
         rewardChartInstance.data.labels = data.charts.labels;
         rewardChartInstance.data.datasets = datasetsReward;
         rewardChartInstance.options = chartOptions;
-        rewardChartInstance.update(); 
+        rewardChartInstance.update('none'); 
       } else {
         rewardChartInstance = new Chart(ctxReward, {
           type: 'bar',
